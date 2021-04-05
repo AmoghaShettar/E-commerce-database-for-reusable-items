@@ -1,23 +1,30 @@
-drop table ADDRESS;
-drop table REUSABLE_ITETM;
-drop table CART;
-drop table CATEGORYY;
-drop table SHIPPER;
-drop table CUSTOMER;
-drop table SELLER;
-drop table ORDERR;
-drop table PAYMENT;
-drop table SHIPMENT;
-drop table ITEM;
 drop table ITEM_CART;
+drop table ITEM;
+drop table SHIPMENT;
+drop table PAYMENT;
+drop table ORDERR;
+drop table SELLER;
+drop table CUSTOMER;
+drop table SHIPPER;
+drop table CATEGORYY;
+drop table CART;
+drop table REUSABLE_ITEM;
+drop table ADDRESS;
+drop table ADDRESS_ZIP;
+
+CREATE TABLE ADDRESS_ZIP(
+    AREA_CODE INT NOT NULL PRIMARY KEY,
+    STATE VARCHAR(25) NOT NULL,
+    COUNTRY VARCHAR(25) NOT NULL
+);
 
 CREATE TABLE ADDRESS(
    ADDRESS_ID INT NOT NULL PRIMARY KEY,
    ADDRESS_LINE1 VARCHAR (100) NOT NULL,
    ADDRESS_LINE2 VARCHAR (100),
    AREA_CODE INT NOT NULL,
-   STATE VARCHAR(25) NOT NULL,
-   COUNTRY VARCHAR(25) NOT NULL
+   FOREIGN KEY(AREA_CODE) REFERENCES ADDRESS_ZIP(AREA_CODE)
+
 );
 
 CREATE TABLE REUSABLE_ITEM(
