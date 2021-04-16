@@ -126,26 +126,77 @@ CREATE TABLE ITEM_CART(
 
 --Inserting data
 
-INSERT INTO REUSABLE_ITEM VALUES (2001, 2, "Has been used only twice");
-INSERT INTO REUSABLE_ITEM VALUES (2002, 1, "A heel you can walk in all day");
-INSERT INTO REUSABLE_ITEM VALUES (2003, 2, "Built with burliest fabric package");
-INSERT INTO REUSABLE_ITEM VALUES (2004, 4, "Sustainable forest woods are used for the frames.");
-INSERT INTO REUSABLE_ITEM VALUES (2005, 3, "No assembly required");
-INSERT INTO REUSABLE_ITEM VALUES (2006, 5, "Crafted from metal, its geometric frame features an openwork design topped off by hardware.");
-INSERT INTO REUSABLE_ITEM VALUES (2007, 2, "Complete storm protection, but they can also move quickly because it’s incredibly lightweight");
-INSERT INTO REUSABLE_ITEM VALUES (2008, 2, "Greet guests with a warm and welcoming glow while you grab their glances with this pendent hanging overhead.");
-INSERT INTO REUSABLE_ITEM VALUES (2009, 1, "With the proper ingredients, success comes naturally. Here's everything you need to make a distinctive tasting sausage stick that will be sure to tingle your taste buds.");
-INSERT INTO REUSABLE_ITEM VALUES (2010, 1, "Open your door to the world of grilling with the sleek Spirit II E-210 gas grill. This two burner grill is built to fit small spaces, and packed with features such as the powerful GS4 grilling system");
-INSERT INTO REUSABLE_ITEM VALUES (2011, 3, "Beautifully handmade laptop case/sleeve made in the Nepal Himalaya");
-INSERT INTO REUSABLE_ITEM VALUES (2012, 5, "Designed and measured to fit a 12 to 14 laptops and with a convenient front pocket for your charger cable and notebook.");
-INSERT INTO REUSABLE_ITEM VALUES (2013, 2, "Includes roll-top, 2 front zipper pockets, and 2 zippered side pockets  Endor Commando Alliance Special Forces patch is prominently featured on the front");
-INSERT INTO REUSABLE_ITEM VALUES (2014, 4, "Genuine hand-seven construction for durable comfort.");
-INSERT INTO REUSABLE_ITEM VALUES (2015, 4, "Lightweight and Easy to Move");
-INSERT INTO REUSABLE_ITEM VALUES (2016, 3, "Each pair is made of 100 percent cotton for a comfortable, breathable fit regardless of the weather and includes easily adjustable shoulder straps for fans with long torsos. ");
-INSERT INTO REUSABLE_ITEM VALUES (2017, 1, "Remove dirt and impurities from your sensitive skin with our all-natural cleansing bar.");
-INSERT INTO REUSABLE_ITEM VALUES (2018, 4, "Officially-licensed Star Wars merchandise.Sometimes blending in is the best plan");
-INSERT INTO REUSABLE_ITEM VALUES (2019, 3, "Custom BioGenic Systems V5000-AB/C Isothermal Carousel Liquid Nitrogen Freezers offer liquid nitrogen storage temperatures without liquid nitrogen contact.");
-INSERT INTO REUSABLE_ITEM VALUES (2020, 3, "Room air purifier removes 99%+ of Airborne Particles. Best for Bedroom, Office, Living Room, Basement");
+INSERT INTO REUSABLE_ITEM VALUES (2001, 2, 'Has been used only twice');
+INSERT INTO REUSABLE_ITEM VALUES (2002, 1, 'A heel you can walk in all day');
+INSERT INTO REUSABLE_ITEM VALUES (2003, 2, 'Built with burliest fabric package');
+INSERT INTO REUSABLE_ITEM VALUES (2004, 4, 'Sustainable forest woods are used for the frames.');
+INSERT INTO REUSABLE_ITEM VALUES (2005, 3, 'No assembly required');
+INSERT INTO REUSABLE_ITEM VALUES (2006, 5, 'Crafted from metal, its geometric frame features an openwork design topped off by hardware.');
+INSERT INTO REUSABLE_ITEM VALUES (2007, 2, 'Complete storm protection');
+INSERT INTO REUSABLE_ITEM VALUES (2008, 2, 'Greet guests with a warm and welcoming glow while you grab their glances with this pendent hanging overhead.');
+INSERT INTO REUSABLE_ITEM VALUES (2009, 1, 'With the proper ingredients, success comes naturally. Here is everything you need to make a distinctive tasting sausage stick that will be sure to tingle your taste buds.');
+INSERT INTO REUSABLE_ITEM VALUES (2010, 1, 'Open your door to the world of grilling with the sleek Spirit II E-210 gas grill. This two burner grill is built to fit small spaces, and packed with features such as the powerful GS4 grilling system');
+INSERT INTO REUSABLE_ITEM VALUES (2011, 3, 'Beautifully handmade laptop case/sleeve made in the Nepal Himalaya');
+INSERT INTO REUSABLE_ITEM VALUES (2012, 5, 'Designed and measured to fit a 12 to 14 laptops and with a convenient front pocket for your charger cable and notebook.');
+INSERT INTO REUSABLE_ITEM VALUES (2013, 2, 'Includes roll-top, 2 front zipper pockets, and 2 zippered side pockets  Endor Commando Alliance Special Forces patch is prominently featured on the front');
+INSERT INTO REUSABLE_ITEM VALUES (2014, 4, 'Genuine hand-seven construction for durable comfort.');
+INSERT INTO REUSABLE_ITEM VALUES (2015, 4, 'Lightweight and Easy to Move');
+INSERT INTO REUSABLE_ITEM VALUES (2016, 3, 'Made of 100 percent cotton for a comfortable. ');
+INSERT INTO REUSABLE_ITEM VALUES (2017, 1, 'Remove dirt and impurities from your sensitive skin with our all-natural cleansing bar.');
+INSERT INTO REUSABLE_ITEM VALUES (2018, 4, 'Officially-licensed Star Wars merchandise.');
+INSERT INTO REUSABLE_ITEM VALUES (2019, 3, 'New version');
+INSERT INTO REUSABLE_ITEM VALUES (2020, 3, 'Room air purifier removes 99%+ of Airborne Particles. Best for Bedroom, Office, Living Room, Basement');
+
+
+
+INSERT INTO ITEM VALUES (11001, 'Chair', 40, 6001, 2001, 3001, 5001);
+INSERT INTO ITEM VALUES (11002, 'T-shirt', 10, 6002, 2001, 3002, 5002);
+INSERT INTO ITEM VALUES (11003, 'Shoes', 30, 6003, null, 3003, 5003);
+INSERT INTO ITEM VALUES (11004, 'Study table', 50, 6004, 2005, 3001, 5004);
+INSERT INTO ITEM VALUES (11005, 'Scissor', 5, 6005, null, 3005, 5005);
+INSERT INTO ITEM VALUES (11006, 'Smart phone', 100, 6010, 2019, 3004, 5006);
+INSERT INTO ITEM VALUES (11007, 'Sofa', 90, 6009, 2006, 3001, 5007);
+INSERT INTO ITEM VALUES (11008, 'Lamp', 40, 6008, 2008, 3001, 5008);
+INSERT INTO ITEM VALUES (11009, 'Frock', 20, 6007, 2016, 3002, 5009);
+INSERT INTO ITEM VALUES (11010, 'Laptop cover', 150, 6006, 2012, 3005, 5010);
+INSERT INTO ITEM VALUES (11011, 'Pen stand', 10, 6011, 2015, 3005, 5011);
+INSERT INTO ITEM VALUES (11012, 'Table', 45, 6002, 2004, 3001, 5012);
+INSERT INTO ITEM VALUES (11013, 'Bagpack', 25, 6003, 2018, 3005, 5013);
+INSERT INTO ITEM VALUES (11014, 'High heels', 35, 6004, 2002, 3003, 5014);
+INSERT INTO ITEM VALUES (11015, 'Phone case', 12, 6005, 2007, 3005, 5015);
+INSERT INTO ITEM VALUES (11016, 'Gas grill', 90, 6002, 2010, 3007, 5016);
+INSERT INTO ITEM VALUES (11017, 'Jacket', 45, 6009, 2013, 3002, 5017);
+INSERT INTO ITEM VALUES (11018, 'Chair', 52, 6008, 2001, 3001, 5018);
+INSERT INTO ITEM VALUES (11019, 'Sweatshirt', 48, 6007, 2014, 3002, 5019);
+INSERT INTO ITEM VALUES (11020, 'Soap', 16, 6006, 2017, 3006, 5020);
+INSERT INTO ITEM VALUES (11021, 'Air purifier', 100, 6005, 2020, 3007, 5015);
+
+
+INSERT INTO ITEM_CART VALUES (11001, 7001);
+INSERT INTO ITEM_CART VALUES (11002, 7001);
+INSERT INTO ITEM_CART VALUES (11003, 7001);
+INSERT INTO ITEM_CART VALUES (11004, 7001);
+INSERT INTO ITEM_CART VALUES (11005, 7002);
+INSERT INTO ITEM_CART VALUES (11006, 7002);
+INSERT INTO ITEM_CART VALUES (11007, 7003);
+INSERT INTO ITEM_CART VALUES (11008, 7003);
+INSERT INTO ITEM_CART VALUES (11009, 7003);
+INSERT INTO ITEM_CART VALUES (11010, 7003);
+INSERT INTO ITEM_CART VALUES (11011, 7003);
+INSERT INTO ITEM_CART VALUES (11012, 7004);
+INSERT INTO ITEM_CART VALUES (11013, 7004);
+INSERT INTO ITEM_CART VALUES (11014, 7004);
+INSERT INTO ITEM_CART VALUES (11015, 7005);
+INSERT INTO ITEM_CART VALUES (11016, 7006);
+INSERT INTO ITEM_CART VALUES (11017, 7006);
+INSERT INTO ITEM_CART VALUES (11018, 7007);
+INSERT INTO ITEM_CART VALUES (11019, 7007);
+INSERT INTO ITEM_CART VALUES (11020, 7007);
+INSERT INTO ITEM_CART VALUES (11021, 7007);
+
+
+
+
 
 
 
