@@ -181,5 +181,36 @@ INSERT INTO SHIPPER VALUES(4010, 'LISA', 9113789765);
 INSERT INTO SHIPPER VALUES(4011, 'JAMES', 9904456543);
 
 
+INSERT INTO CUSTOMER VALUES(5001, 'Siya', 'Siya27', 'Siya@2705', '27-05-2000', 86766786788, 'siya27@gmail.com', 1015);
+INSERT INTO CUSTOMER VALUES(5002, 'Mathew', 'Mathew_Fred', 'Mathew#Fred', '21-04-1997', 7688099087, 'freddy@gmail.com', 1011);
+INSERT INTO CUSTOMER VALUES(5003, 'Rahul', 'Rahul112', '11@Rahul', '11-01-1998', 6122219009, 'rahul11@gmail.com', 1004);
+INSERT INTO CUSTOMER VALUES(5004, 'Jenny', 'JennyIKnow', 'Jenny@1234', '27-10-1995', 8883222098, 'jenny1234@gmail.com', 1016);
+INSERT INTO CUSTOMER VALUES(5005, 'Steve', 'Stevyy', '1@Stevey', '01-07-1999', 9990128410, 'steve1@yahoo.com', 1019);
+INSERT INTO CUSTOMER VALUES(5006, 'Priya', 'Ipriya', 'Priya#92002', '09-11-2002', 9384645372, 'priya92@gmail.com', 1005);
+INSERT INTO CUSTOMER VALUES(5007, 'Katy', 'ItsKaty', 'Katy@999', '17-09-1999', 87101012002, 'katy999@gmail.com', 1001);
+INSERT INTO CUSTOMER VALUES(5008, 'Ashish', '798Ashish', 'Ash#6789', '07-02-1998', 6002304010, 'ash789@yahoo.com', 1003);
+INSERT INTO CUSTOMER VALUES(5009, 'Karan', 'MeKaran', 'Karan1234#', '12-03-2004', 8116172821, 'karan1234@gmail.com', 1009);
+INSERT INTO CUSTOMER VALUES(5010, 'Mia', 'MiaRight', 'Mia@11111', '14-02-1996', 6434011282, 'mia11111@gyahoomail.com', 1007);
+INSERT INTO CUSTOMER VALUES(5001, 'John', 'Jonny', 'Jonny#56', '05-06-1995', 86766786788, 'jonny56@gmail.com', 1015);
+INSERT INTO CUSTOMER VALUES(5001, 'Rohit', 'RohitMeh', 'MehreRo@12', '12-12-1998', 8223400116, 'meh_roh@gmail.com', 1007);
+INSERT INTO CUSTOMER VALUES(5001, 'Alia', 'AliaCool', 'Alia@0398', '03-09-1998', 9997600216, 'alia0398@gmail.com', 1013);
+INSERT INTO CUSTOMER VALUES(5001, 'Tina', 'Tintin', 'Tintin@44', '04-04-1996', 6800333345, 'tinaa44@yahoo.com', 1020);
+INSERT INTO CUSTOMER VALUES(5001, 'Mike', 'Mikeyboy', 'Boy$1234', '12-03-1994', 7556091009, 'mike1234@gmail.com', 1012);
+INSERT INTO CUSTOMER VALUES(5001, 'David', 'DavidY', 'David#123', '09-11-1999', 7565111342, 'david12@yahoo.com', 1008);
+INSERT INTO CUSTOMER VALUES(5001, 'Riya', 'RiyaD', 'D@Riya12', '21-12-2000', 8110592387, 'riyaD12@yahoo.com', 1017);
+INSERT INTO CUSTOMER VALUES(5001, 'George', 'Georegyy', 'George@1234', '24-07-1995', 9150384926, '1234george@gmail.com', 1002);
+INSERT INTO CUSTOMER VALUES(5001, 'Emma', 'EmmaW', 'Emma177#', '17-07-1996', 7003160314, 'wemma@gmail.com', 1018);
+INSERT INTO CUSTOMER VALUES(5001, 'Aman', 'Aman10', '0997@Aman', '09-10-1997', 8422450776, 'aman0997@gmail.com', 1010);
 
 
+INSERT INTO SELLER VALUES(6001, 'Camila', 'CamilaM', 'Camila#55', 4656009000, 'camila55@gmail.com', 1001);
+INSERT INTO SELLER VALUES(6002, 'Noah', 'Noah_C', 'Noah#4567', 8811312266, 'noah45@gmail.com', 1004);
+INSERT INTO SELLER VALUES(6003, 'Priyanka', 'Priyanka', 'Priyanka99_#', 9944654473, 'priyanka9@yahoo.com', 1016);
+INSERT INTO SELLER VALUES(6004, 'Luna', 'LunaLog', '1@Luna#0', 8112204412, 'luna10@gmail.com', 1019);
+INSERT INTO SELLER VALUES(6005, 'Oliver', 'OliverPh', 'P@Oliver4', 9778117603, 'oliver4@gmail.com', 1020);
+INSERT INTO SELLER VALUES(6006, 'Sejal', 'Sejal_Use', 'Sejal#88', 6660952761, 'sejal33@gmail.com', 1003);
+INSERT INTO SELLER VALUES(6007, 'Thomas', 'ThomasE', 'Thomas@E15', 8160362898, 'thomas15@yahoo.com', 1012);
+INSERT INTO SELLER VALUES(6008, 'Mila', 'MilaMake', 'Mila58#', 7600194879, 'mila58@gmail.com', 10051);
+INSERT INTO SELLER VALUES(6009, 'Diya', 'DiyaDay', '12@Diya', 7660009123, 'diya@yahoo.com', 1007);
+INSERT INTO SELLER VALUES(6010, 'Issac', 'Issac_N', 'Issac7&8', 8333045176, 'issac78@gmail.com', 1010);
+INSERT INTO SELLER VALUES(6011, 'Tejas', 'Tejas_U', '1234#Tejas', 9812421890, 'tejas1234@gmail.com', 10013);
