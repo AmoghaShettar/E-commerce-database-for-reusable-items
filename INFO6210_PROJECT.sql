@@ -238,7 +238,7 @@ INSERT INTO SELLER VALUES(6007, 'Thomas', 'ThomasE', 'Thomas@E15', 8160362898, '
 INSERT INTO SELLER VALUES(6008, 'Mila', 'MilaMake', 'Mila58##', 7600194879, 'mila58@gmail.com', 1005);
 INSERT INTO SELLER VALUES(6009, 'Diya', 'DiyaDay', '12@Diya12', 7660009123, 'diya@yahoo.com', 1007);
 INSERT INTO SELLER VALUES(6010, 'Issac', 'Issac_N', 'Issac@78', 8333045176, 'issac78@gmail.com', 1010);
-INSERT INTO SELLER VALUES(6011, 'Tejas', 'Tejas_U', '1234#Tejas', 9812421890, 'tejas1234@gmail.com', 10013);
+INSERT INTO SELLER VALUES(6011, 'Tejas', 'Tejas_U', '1234#Tejas', 9812421890, 'tejas1234@gmail.com', 1013);
 
 
 INSERT INTO CART VALUES(7001, 4, 130);
@@ -373,3 +373,86 @@ INSERT INTO ITEM_CART VALUES (11019, 7007);
 INSERT INTO ITEM_CART VALUES (11020, 7007);
 INSERT INTO ITEM_CART VALUES (11021, 7007);
 
+--SQL Queries
+
+--Displaying items belonging to particular cart-
+select c.cart_id, item_name
+from cart c, item i, item_cart ic
+where c.cart_id = ic.cart_id and i.item_id = ic.item_id;
+
+--Displaying all items belonging to furniture category-
+select category_name, item_name
+from categoryy c, item i
+where c.category_id = i.category_id and category_name = 'FURNITURE';
+
+--PL/SQL procedure
+
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE price_wise(p in number) IS
+    i_price item.price%type;
+    i_name item.item_name%type;
+    i_id item.item_id%type;
+    CURSOR cur1 IS
+    SELECT item_id,price,item_name FROM item WHERE price < p;
+    BEGIN
+        OPEN cur1;
+        LOOP
+            FETCH cur1 INTO i_id,i_price,i_name;
+            EXIT WHEN cur1%notfound;
+            dbms_output.put_line('Item ' || i_id || ' name is "' || i_name || '" and its price is $' || i_price);
+        END LOOP;
+        CLOSE cur1;
+    EXCEPTION
+        WHEN no_data_found THEN
+        dbms_output.put_line('Sorry no such item exists');
+    END;
+/
+    
+EXECUTE price_wise(50);
+
+--Trigger
+
+CREATE or replace trigger reusable_item_check
+before insert on reusable_item
+for each row
+enable
+declare
+    times_used_tr int;
+begin
+    for try in (select no_of_times_used into times_used_tr from reusable_item)
+    loop
+    --if deleting then
+    if try.no_of_times_used > 5 then
+        --delete from reusable_item where no_of_times_used > 5;
+        dbms_output.put_line('Item not inserted because it is used more than 5 times');
+    end if;
+    end loop;
+end;
+/
+
+create or replace trigger reusable_check
+after insert on reusable_item 
+for each row
+enable
+declare 
+no_used int;
+begin
+select no_of_times_used into no_used from reusable_item;
+if no_used > 5 then
+dbms_output.put_line('Cannot insert this item');
+else
+insert into reusable_item values (:new.r_id, :new.no_of_times_used, :new.i_description);
+end if;
+end;
+/
+
+INSERT INTO REUSABLE_ITEM VALUES (2023, 6, 'checking......');
+
+select * from reusable_item;
+
+delete from reusable_item where no_of_times_used > 5;
+
+--trying procedure in trigger
+
+select * from reusable_item;
