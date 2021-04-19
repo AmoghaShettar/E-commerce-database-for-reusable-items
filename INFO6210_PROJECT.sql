@@ -194,3 +194,33 @@ INSERT INTO SHIPMENT VALUES(217,'24-APR-2021','SHIPPING', 1017,4004,117 );
 INSERT INTO SHIPMENT VALUES(218,'25-APR-2021','SHIPPING', 1002,4006,118 );
 INSERT INTO SHIPMENT VALUES(219,'20-APR-2021','SHIPPING', 1018,4005,119 );
 INSERT INTO SHIPMENT VALUES(220,'30-JAN-2021','CANCELED', 1010,4008,120);
+
+--Queries
+--Customer see order history
+select order_ID, cartID, order_date from orderr where C_id=5001;
+--if a seller stop selling their item
+delete from item where S_ID = 5001;
+--see what customer has not purchased anything
+Select * from customer where c_id not in (select c_id from orderr);
+
+
+--Function to count all items a seller posted
+create or replace function totalProducts(sId in NUMBER)
+    return number
+    is
+    total number(2):=0;
+    begin
+        select count(*) into total
+        from item
+        where seller_id=sId;
+        return total;
+    end;
+/
+    
+--Excution:
+declare
+c number(2);
+begin
+c:=totalProducts(5001);
+dbms_output.put_line('Total products is : '|| c);
+end;
