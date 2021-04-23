@@ -453,6 +453,32 @@ select * from reusable_item;
 
 delete from reusable_item where no_of_times_used > 5;
 
---trying procedure in trigger
+--Procedure to create user
+set serveroutput on;
 
-select * from reusable_item;
+select * from customer;
+
+CREATE OR REPLACE PROCEDURE Customer_Details
+(cc_id IN customer.c_id%type, cc_name IN customer.c_name%type, cc_user IN customer.c_usrname%type, cc_pass IN customer.c_password%type, 
+dd_o_b IN customer.date_of_birth%type, cc_phone IN customer.c_phone%type, cc_email IN customer.c_email%type, cc_addr IN customer.address_id%type) 
+IS
+BEGIN
+INSERT INTO CUSTOMER (c_id, c_name, c_username, c_password, date_of_birth, c_phone, c_email, address_id ) 
+  VALUES (cc_id, cc_name, cc_user, cc_pass, dd_o_b, cc_phone, cc_email, cc_addr);
+END;
+/
+
+set serveroutput on;
+
+create or replace trigger Customer_check
+before insert or update of c_password on customer
+for each row
+begin
+len := length(new.c_password);
+if len < 8 then
+raise_application_error(-20111, 'Password should be atleast 8 characters);
+end if;
+end;
+/
+
+select * from customer;
