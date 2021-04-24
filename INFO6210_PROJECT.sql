@@ -108,7 +108,7 @@ CREATE TABLE ITEM(
     ITEM_NAME VARCHAR(25) NOT NULL,
     PRICE INT NOT NULL,
     S_ID INT NOT NULL, 
-    FOREIGN KEY(S_ID) REFERENCES SELLER(S_ID),
+    FOREIGN KEY(S_ID) REFERENCES SELLER(S_ID) ON DELETE CASCADE,
     R_ID INT,
     FOREIGN KEY(R_ID) REFERENCES REUSABLE_ITEM(R_ID),
     CATEGORY_ID INT NOT NULL, 
@@ -381,7 +381,9 @@ CREATE OR REPLACE PROCEDURE CART_DETAILS(C_ID IN VARCHAR)
     END;
 /
 
-EXECUTE CART_DETAILS(7021);
+EXECUTE CART_DETAILS(7020);
+
+----------------------------------------------------------------------------------------------------------------
 
 --Function to count number of cart items
 
@@ -397,12 +399,11 @@ CREATE OR REPLACE FUNCTION numAddrId (addr IN INT)
     END;
 /
 
-
 declare
 get_num INT :=0;
 begin
 get_num := numAddrId(1001);
-dbms_output.put_line('Value is:' || get_num);
+dbms_output.put_line('Value is : ' || get_num);
 end;
 /
 
@@ -431,28 +432,58 @@ create or replace trigger before_pay_up
     end;
 /
 
+------------------------------------------------------------------------------------------
+
+--CREATING AN ARCHIVE SELLER TABLE AND A TRIGGER 
+
+DROP TABLE SELLER_ARCHIVE;
+
+CREATE TABLE SELLER_ARCHIVE(
+   S_ID INT NOT NULL,
+   S_NAME VARCHAR (50) NOT NULL,
+   S_USERNAME VARCHAR (20) NOT NULL,
+   S_PASSWORD VARCHAR (20) NOT NULL,
+   S_PHONE INT NOT NULL,
+   S_EMAIL VARCHAR(25) NOT NULL,
+   ADDRESS_ID INT,
+   FOREIGN KEY(ADDRESS_ID) REFERENCES ADDRESS(ADDRESS_ID)
+);
+
+CREATE OR REPLACE TRIGGER after_seller_details_delete
+AFTER DELETE
+ON SELLER FOR EACH ROW
+BEGIN
+    INSERT INTO SELLER_ARCHIVE (S_ID, S_NAME, S_USERNAME, S_PASSWORD, S_PHONE, S_EMAIL, ADDRESS_ID) VALUES (:OLD.S_ID, :OLD.S_NAME, :OLD.S_USERNAME, :OLD.S_PASSWORD, :OLD.S_PHONE, :OLD.S_EMAIL, :OLD.ADDRESS_ID);
+END;
+/
+
+SELECT * FROM SELLER_ARCHIVE;
+
+SELECT * FROM SELLER;
+
+DELETE FROM SELLER WHERE S_ID = 6011;
+
 --------------------------------------------------------------------------------
 
 CREATE OR REPLACE TRIGGER CHECK_CART_QUANTITY 
-AFTER INSERT ON Cart FOR EACH ROW
+BEFORE INSERT ON CART FOR EACH ROW
 DECLARE
-quan int;
+QUAN INT;
 BEGIN
-    quan := :NEW.no_of_items;
-    IF (quan > 5)
+    QUAN := :NEW.NO_OF_ITEMS;
+    IF (QUAN > 5)
     THEN
       Raise_Application_Error(-20001, 'Quantity cannot exceed 5');
-      
     END IF;
 END;
 /
 
-insert into cart values (7027, 6, 140);
+INSERT INTO CART VALUES(7021, 6, 140);
 
-select * from cart;
+SELECT * FROM CART;
 
 CREATE OR REPLACE TRIGGER CHECK_QUANTITY 
-AFTER INSERT ON Cart FOR EACH ROW
+BEFORE INSERT ON Cart FOR EACH ROW
 DECLARE
 quan int;
 BEGIN
@@ -465,40 +496,3 @@ BEGIN
     END IF;
 END;
 /
-
-------------------------------------------------------------------------------------------
-
---CREATING AN ARCHIVE SELLER TABLE AND A TRIGGER 
-
-CREATE TABLE SELLER_ARCHIVE(
-   S_ID INT NOT NULL PRIMARY KEY,
-   S_NAME VARCHAR (50) NOT NULL,
-   S_USERNAME VARCHAR (20) NOT NULL,
-   S_PASSWORD VARCHAR (20) NOT NULL,
-   S_PHONE INT NOT NULL,
-   S_EMAIL VARCHAR(25) NOT NULL,
-   ADDRESS_ID INT,
-   FOREIGN KEY(ADDRESS_ID) REFERENCES ADDRESS(ADDRESS_ID)
-);
-
-CREATE OR REPLACE TRIGGER before_seller_details_delete
-BEFORE DELETE
-ON SELLER FOR EACH ROW
-BEGIN
-    INSERT INTO SELLER_ARCHIVE (S_ID, S_NAME, S_USERNAME, S_PASSWORD, S_PHONE, S_EMAIL, ADDRESS_ID) VALUES(OLD.S_ID, OLD.S_NAME, OLD.S_USERNAME, OLD.S_PASSWORD, OLD.S_PHONE, OLD.S_EMAIL, OLD.ADDRESS_ID);
-END;
-/
-
-SELECT * FROM SELLER_ARCHIVE;
-DROP TABLE SELLER_ARCHIVE;
-
-
-
-
-
-
-
-
-
-
-
