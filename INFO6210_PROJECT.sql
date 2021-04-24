@@ -204,6 +204,7 @@ INSERT INTO SHIPPER VALUES(4008, 'MILEY', 6777540011);
 INSERT INTO SHIPPER VALUES(4009, 'MIKE', 8112345656);
 INSERT INTO SHIPPER VALUES(4010, 'LISA', 9113789765);
 INSERT INTO SHIPPER VALUES(4011, 'JAMES', 9904456543);
+INSERT INTO SHIPPER VALUES(4012, 'Glenn', 6173409812);
 
 
 INSERT INTO CUSTOMER VALUES(5001, 'Siya', 'Siya27', 'Siya@2705', '27-05-2000', 86766786788, 'siya27@gmail.com', 1015);
@@ -226,6 +227,40 @@ INSERT INTO CUSTOMER VALUES(5017, 'Riya', 'RiyaD', 'D@Riya12', '21-12-2000', 811
 INSERT INTO CUSTOMER VALUES(5018, 'George', 'Georegyy', 'George@1234', '24-07-1995', 9150384926, '1234george@gmail.com', 1002);
 INSERT INTO CUSTOMER VALUES(5019, 'Emma', 'EmmaW', 'Emma177#', '17-07-1996', 7003160314, 'wemma@gmail.com', 1018);
 INSERT INTO CUSTOMER VALUES(5020, 'Aman', 'Aman10', '0997@Aman', '09-10-1997', 8422450776, 'aman0997@gmail.com', 1010);
+INSERT INTO CUSTOMER VALUES(5021, 'Amogha', 'c##AmoghaInfo', 'A#Info6210', '21-04-1998', 988029110, 'amogha2705@gmail.com', 1001);
+
+--create user for customers
+CREATE USER c##AmoghaInfo IDENTIFIED BY A#Info6210;
+
+GRANT CONNECT TO c##AmoghaInfo;
+
+--GRANT CONNECT, RESOURCE, DBA TO c##AmoghaInfo;
+--GRANT UNLIMITED TABLESPACE TO c##AmoghaInfo;
+
+GRANT 
+    INSERT, UPDATE, DELETE 
+ON CUSTOMER
+TO c##AmoghaInfo;
+
+GRANT 
+    INSERT, UPDATE, DELETE 
+ON ADDRESS
+TO c##AmoghaInfo;
+
+GRANT 
+    SELECT, INSERT, UPDATE, DELETE 
+ON CART
+TO c##AmoghaInfo;
+
+GRANT 
+    INSERT, UPDATE, DELETE 
+ON PAYMENT
+TO c##AmoghaInfo;
+
+GRANT 
+    SELECT, DELETE 
+ON ADDRESS_ZIP, ITEM, CATEGORYY, ORDERR, SHIPMENT, REUSABLE_ITEM
+TO c##AmoghaInfo;
 
 
 INSERT INTO SELLER VALUES(6001, 'Camila', 'CamilaM', 'Camila#55', 4656009000, 'camila55@gmail.com', 1001);
@@ -239,7 +274,20 @@ INSERT INTO SELLER VALUES(6008, 'Mila', 'MilaMake', 'Mila58##', 7600194879, 'mil
 INSERT INTO SELLER VALUES(6009, 'Diya', 'DiyaDay', '12@Diya12', 7660009123, 'diya@yahoo.com', 1007);
 INSERT INTO SELLER VALUES(6010, 'Issac', 'Issac_N', 'Issac@78', 8333045176, 'issac78@gmail.com', 1010);
 INSERT INTO SELLER VALUES(6011, 'Tejas', 'Tejas_U', '1234#Tejas', 9812421890, 'tejas1234@gmail.com', 1013);
+INSERT INTO SELLER VALUES(6012, 'Amoolya', 'c##AmoolyaInfo', 'Amoo#Info1', 9880421100, 'amoolya2705@gmail.com', 1001);
 
+--create user for sellers
+CREATE USER c##AmoolyaInfo IDENTIFIED BY Amoo#Info1;
+
+GRANT 
+    INSERT, UPDATE, DELETE 
+ON SELLER
+TO c##AmoolyaInfo;
+
+GRANT 
+    INSERT, UPDATE, DELETE 
+ON ADDRESS
+TO c##AmoolyaInfo;
 
 INSERT INTO CART VALUES(7001, 4, 130);
 INSERT INTO CART VALUES(7002, 2, 105);
@@ -385,6 +433,23 @@ select category_name, item_name
 from categoryy c, item i
 where c.category_id = i.category_id and category_name = 'FURNITURE';
 
+--Creating users
+
+
+
+--Views
+
+create or replace view Item_division as
+select item_id, item_name, price, 
+case 
+    when price < 25 then 'Cheap'
+    when price > 75 then 'Exorbitant'
+    else 'Affordable'
+end as Division
+from item;
+
+select * from item_division;
+
 --PL/SQL procedure
 
 SET SERVEROUTPUT ON;
@@ -411,48 +476,6 @@ CREATE OR REPLACE PROCEDURE price_wise(p in number) IS
     
 EXECUTE price_wise(50);
 
---Trigger
-
-CREATE or replace trigger reusable_item_check
-before insert on reusable_item
-for each row
-enable
-declare
-    times_used_tr int;
-begin
-    for try in (select no_of_times_used into times_used_tr from reusable_item)
-    loop
-    --if deleting then
-    if try.no_of_times_used > 5 then
-        --delete from reusable_item where no_of_times_used > 5;
-        dbms_output.put_line('Item not inserted because it is used more than 5 times');
-    end if;
-    end loop;
-end;
-/
-
-create or replace trigger reusable_check
-after insert on reusable_item 
-for each row
-enable
-declare 
-no_used int;
-begin
-select no_of_times_used into no_used from reusable_item;
-if no_used > 5 then
-dbms_output.put_line('Cannot insert this item');
-else
-insert into reusable_item values (:new.r_id, :new.no_of_times_used, :new.i_description);
-end if;
-end;
-/
-
-INSERT INTO REUSABLE_ITEM VALUES (2023, 6, 'checking......');
-
-select * from reusable_item;
-
-delete from reusable_item where no_of_times_used > 5;
-
 --Procedure to create user
 set serveroutput on;
 
@@ -467,18 +490,3 @@ INSERT INTO CUSTOMER (c_id, c_name, c_username, c_password, date_of_birth, c_pho
   VALUES (cc_id, cc_name, cc_user, cc_pass, dd_o_b, cc_phone, cc_email, cc_addr);
 END;
 /
-
-set serveroutput on;
-
-create or replace trigger Customer_check
-before insert or update of c_password on customer
-for each row
-begin
-len := length(new.c_password);
-if len < 8 then
-raise_application_error(-20111, 'Password should be atleast 8 characters);
-end if;
-end;
-/
-
-select * from customer;
