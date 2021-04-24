@@ -144,7 +144,7 @@ INSERT INTO PAYMENT VALUES(114,29, 'CREDIT', '17-FEB-2021',14);
 INSERT INTO PAYMENT VALUES(115,68, 'CREDIT', '28-MAR-2021',15);
 INSERT INTO PAYMENT VALUES(116,45, 'DEBIT', '16-APR-2021',16);
 INSERT INTO PAYMENT VALUES(117,450, 'CREDIT', '12-APR-2021',17);
-INSERT INTO PAYMENT VALUES(118,290, 'CREDIT', '13-APR-2021',18);
+INSERT INTO PAYMENT VALUES(118,290, 'CREDIT', '12-APR-2021',18);
 INSERT INTO PAYMENT VALUES(119,62, 'DEBIT', '15-MAR-2021',19);
 INSERT INTO PAYMENT VALUES(120,124, 'PAYPAL', '03-JAN-2021',20);
 
@@ -196,8 +196,6 @@ INSERT INTO SHIPMENT VALUES(219,'20-APR-2021','SHIPPING', 1018,4005,119 );
 INSERT INTO SHIPMENT VALUES(220,'30-JAN-2021','CANCELED', 1010,4008,120);
 
 --Queries
---Customer see order history
-select order_ID, cartID, order_date from orderr where C_id=5001;
 --if a seller stop selling their item
 delete from item where S_ID = 5001;
 --see what customer has not purchased anything
@@ -224,3 +222,99 @@ begin
 c:=totalProducts(5001);
 dbms_output.put_line('Total products is : '|| c);
 end;
+
+-- Functiion to get delivery date
+CREATE FUNCTION Get_Order_Time (@ORDER_ID INT)
+RETURNS INT
+AS
+BEGIN
+DECLARE @temp INT 
+SELECT @temp= DATEDIFF(DAY, s.SHIPMENT_DATE, p.PAYMENT_Date)
+FROM SHIPMENT s
+INNER JOIN PAYMENT p
+on s.PAYMENT_ID = p.PAYMENT_ID;
+RETURN @temp
+END;
+-- Run
+SELECT PAYMENT_ID, SHIPMENT_DATE, PAYMENT_DATE, Get_Order_Time (PAYMENT_ID)AS [Days]
+FROM SHIPMENT s
+INNER JOIN PAYMENT p
+WHERE s.PAYMENT_ID = p.PAYMENT_ID
+GROUP BY PAYMENT_ID;
+
+-- Procedure
+-- Get total sales per day
+CREATE PROCEDURE TotalSalesPerDay
+@PAYMENT_DATE DATE
+AS BEGIN
+
+	SELECT p.PAYMENT_DATE, sum (p.amount) as TotalSale$
+	FROM Payment p
+	INNER JOIN Orderr o
+	ON p.ORDER_ID = o.ORDER_ID
+	WHERE p.PAYMENT_DAT = @PAYMENT_DATE
+	GROUP BY p.PAYMENT_DATE
+
+END
+
+EXEC TotalSalesPerDay @PAYMENT_DATE= '12-APR-2021'
+
+-- Get top 5 highest order amount
+
+ALTER PROCEDURE GetHighestOrder
+@HighestOrder INT OUTPUT,
+@CustomerName VARCHAR(45) OUTPUT
+AS BEGIN 
+	SELECT top 5 sum(p.Amount), c.NAME
+	FROM CUSTOMER c
+	INNER JOIN ORDERR o
+	ON c.C_ID = o.C_ID
+    INNER JOIN PAYMENT P
+    on o.ORDER_ID = p.ORDER_ID
+	GROUP BY c.Name
+	ORDER BY sum(p.Amount) DESC
+END
+
+DECLARE @HighestOrder INT, @FullName VARCHAR(45)
+EXEC GetHighestOrder @HighestOrder OUTPUT, @Name OUTPUT
+SELECT @HighestOrderr as Amount$, @Name as FullName
+
+-- Customer Order history
+CREATE PROCEDURE CustomerOrderHistory
+@CId INT
+AS BEGIN
+	
+	SELECT c.C_ID, c.NAME, o.ORDER_ID,p.Amount,
+		   o.OrderDate
+	FROM Customer c
+	INNER JOIN Orders o
+	ON c.C_ID = o.C_ID
+	INNER  JOIN PAYMENT p
+	ON p.ORDER_ID = o.ORDER_ID
+	WHERE c.C_ID = @CId
+	ORDER BY o.OrderDate
+
+END
+
+EXEC CustomerOrderHistory @CId = 5002
+
+
+-- Shipping status summary
+
+CREATE PROCEDURE Get_Order_Status 
+@Status VARCHAR(30)
+AS 
+BEGIN
+SELECT o.ORDER_ID, c.C_ID, c.Name, s.SHIPMENT_ID, s.DELIVERY_STATUS, s.SHIPMENT_DATE, o.ORDER_DATE
+from CUSTOMER c
+inner join ORDERR o on c.C_ID = o.C_ID
+inner join PAYMENT p on p.ORDER_ID = o.ORDER_ID
+inner join SHIPMENT s on s.PAYMENT_ID = P.PAYMENT_ID
+WHERE s.DELIVERY_STATUS= @Status
+END;
+
+EXEC Get_Order_Status @STATUS = 'DELIVERED'
+
+
+-- Indexes
+CREATE NONCLUSTERED INDEX Customer_List ON Customer(C_Name, C_EMAIL, ADDRESS_ID);
