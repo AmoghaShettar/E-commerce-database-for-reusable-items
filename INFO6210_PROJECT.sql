@@ -210,27 +210,27 @@ ELSE
    ADDRESS_ID INT,
    FOREIGN KEY(ADDRESS_ID) REFERENCES ADDRESS(ADDRESS_ID)
 )';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5001, ''Siya'', ''Siya27'', ''Siya@2705'', ''27-05-2000'', 86766786788, ''siya27@gmail.com'', 1015)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5002, ''Mathew'', ''Mathew_Fred'', ''Mathew#Fred'', ''21-04-1997'', 7688099087, ''freddy@gmail.com'', 1011)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5003, ''Rahul'', ''Rahul112'', ''11@Rahul'', ''11-01-1998'', 6122219009, ''rahul11@gmail.com'', 1004)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5004, ''Jenny'', ''JennyIKnow'', ''Jenny@1234'', ''27-10-1995'', 8883222098, ''jenny1234@gmail.com'', 1016)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5005, ''Steve'', ''Stevyy'', ''1@Stevey'', ''01-07-1999'', 9990128410, ''steve1@yahoo.com'', 1019)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5006, ''Priya'', ''Ipriya'', ''Priya#92002'', ''09-11-2002'', 9384645372, ''priya92@gmail.com'', 1005)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5007, ''Katy'', ''ItsKaty'', ''Katy@999'', ''17-09-1999'', 87101012002, ''katy999@gmail.com'', 1001)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5008, ''Ashish'', ''798Ashish'', ''Ash#6789'', ''07-02-1998'', 6002304010, ''ash789@yahoo.com'', 1003)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5009, ''Karan'', ''MeKaran'', ''Karan1234#'', ''12-03-2004'', 8116172821, ''karan1234@gmail.com'', 1009)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5010, ''Mia'', ''MiaRight'', ''Mia@11111'', ''14-02-1996'', 6434011282, ''mia11111@gyahoomail.com'', 1007)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5011, ''John'', ''Jonny'', ''Jonny#56'', ''05-06-1995'', 86766786788, ''jonny56@gmail.com'', 1015)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5012, ''Rohit'', ''RohitMeh'', ''MehreRo@12'', ''12-12-1998'', 8223400116, ''meh_roh@gmail.com'', 1007)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5013, ''Alia'', ''AliaCool'', ''Alia@0398'', ''03-09-1998'', 9997600216, ''alia0398@gmail.com'', 1013)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5014, ''Tina'', ''Tintin'', ''Tintin@44'', ''04-04-1996'', 6800333345, ''tinaa44@yahoo.com'', 1020)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5015, ''Mike'', ''Mikeyboy'', ''Boy$1234'', ''12-03-1994'', 7556091009, ''mike1234@gmail.com'', 1012)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5016, ''David'', ''DavidY'', ''David#123'', ''09-11-1999'', 7565111342, ''david12@yahoo.com'', 1008)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5017, ''Riya'', ''RiyaD'', ''D@Riya12'', ''21-12-2000'', 8110592387, ''riyaD12@yahoo.com'', 1017)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5018, ''George'', ''Georegyy'', ''George@1234'', ''24-07-1995'', 9150384926, ''1234george@gmail.com'', 1002)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5019, ''Emma'', ''EmmaW'', ''Emma177#'', ''17-07-1996'', 7003160314, ''wemma@gmail.com'', 1018)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5020, ''Aman'', ''Aman10'', ''0997@Aman'', ''09-10-1997'', 8422450776, ''aman0997@gmail.com'', 1010)';
-    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5021, ''Amogha'', ''c##AmoghaInfo'', ''A#Info6210'', ''21-04-1998'', 988029110, ''amogha2705@gmail.com'', 1001)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5001, ''Siya'', ''Siya27'', ''Siya@2705'', ''27-MAY-2000'', 86766786788, ''siya27@gmail.com'', 1015)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5002, ''Mathew'', ''Mathew_Fred'', ''Mathew#Fred'', ''21-APR-1997'', 7688099087, ''freddy@gmail.com'', 1011)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5003, ''Rahul'', ''Rahul112'', ''11@Rahul'', ''11-JAN-1998'', 6122219009, ''rahul11@gmail.com'', 1004)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5004, ''Jenny'', ''JennyIKnow'', ''Jenny@1234'', ''27-OCT-1995'', 8883222098, ''jenny1234@gmail.com'', 1016)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5005, ''Steve'', ''Stevyy'', ''1@Stevey'', ''01-AUG-1999'', 9990128410, ''steve1@yahoo.com'', 1019)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5006, ''Priya'', ''Ipriya'', ''Priya#92002'', ''09-NOV-2002'', 9384645372, ''priya92@gmail.com'', 1005)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5007, ''Katy'', ''ItsKaty'', ''Katy@999'', ''17-SEP-1999'', 87101012002, ''katy999@gmail.com'', 1001)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5008, ''Ashish'', ''798Ashish'', ''Ash#6789'', ''07-FEB-1998'', 6002304010, ''ash789@yahoo.com'', 1003)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5009, ''Karan'', ''MeKaran'', ''Karan1234#'', ''12-MAR-2004'', 8116172821, ''karan1234@gmail.com'', 1009)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5010, ''Mia'', ''MiaRight'', ''Mia@11111'', ''14-FEB-1996'', 6434011282, ''mia11111@gyahoomail.com'', 1007)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5011, ''John'', ''Jonny'', ''Jonny#56'', ''05-JUN-1995'', 86766786788, ''jonny56@gmail.com'', 1015)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5012, ''Rohit'', ''RohitMeh'', ''MehreRo@12'', ''12-OCT-1998'', 8223400116, ''meh_roh@gmail.com'', 1007)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5013, ''Alia'', ''AliaCool'', ''Alia@0398'', ''03-SEP-1998'', 9997600216, ''alia0398@gmail.com'', 1013)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5014, ''Tina'', ''Tintin'', ''Tintin@44'', ''04-APR-1996'', 6800333345, ''tinaa44@yahoo.com'', 1020)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5015, ''Mike'', ''Mikeyboy'', ''Boy$1234'', ''12-MAR-1994'', 7556091009, ''mike1234@gmail.com'', 1012)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5016, ''David'', ''DavidY'', ''David#123'', ''09-NOV-1999'', 7565111342, ''david12@yahoo.com'', 1008)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5017, ''Riya'', ''RiyaD'', ''D@Riya12'', ''21-JAN-2000'', 8110592387, ''riyaD12@yahoo.com'', 1017)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5018, ''George'', ''Georegyy'', ''George@1234'', ''24-JUL-1995'', 9150384926, ''1234george@gmail.com'', 1002)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5019, ''Emma'', ''EmmaW'', ''Emma177#'', ''17-JUL-1996'', 7003160314, ''wemma@gmail.com'', 1018)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5020, ''Aman'', ''Aman10'', ''0997@Aman'', ''09-OCT-1997'', 8422450776, ''aman0997@gmail.com'', 1010)';
+    EXECUTE IMMEDIATE 'INSERT INTO CUSTOMERR VALUES(5021, ''Amogha'', ''c##AmoghaInfo'', ''A#Info6210'', ''21-APR-1998'', 988029110, ''amogha2705@gmail.com'', 1001)';
 
 END IF;
 
