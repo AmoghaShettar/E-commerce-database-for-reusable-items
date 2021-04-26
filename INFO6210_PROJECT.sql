@@ -520,3 +520,4 @@ select * from SHIPMENT;
 select * from ITEM;
 select * from ITEM_CART;
 
+commit;
