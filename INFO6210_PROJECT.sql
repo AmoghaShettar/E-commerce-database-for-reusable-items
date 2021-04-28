@@ -436,7 +436,6 @@ from item;
 
 --Functions
 --Displaying all items belonging to mentioned category
-set serveroutput on;
 
 CREATE OR REPLACE PROCEDURE CategoryBased(cat_name in categoryy.category_name%type) IS
 p_cat_name categoryy.category_name%type;
@@ -489,11 +488,11 @@ EXECUTE price_wise(50);
 --Procedure to create user
 
 CREATE OR REPLACE PROCEDURE Customer_Details
-(cc_id IN customer.c_id%type, cc_name IN customer.c_name%type, cc_user IN customer.c_username%type, cc_pass IN customer.c_password%type,
-dd_o_b IN customer.date_of_birth%type, cc_phone IN customer.c_phone%type, cc_email IN customer.c_email%type, cc_addr IN customer.address_id%type)
+(cc_id IN customerr.c_id%type, cc_name IN customerr.c_name%type, cc_user IN customerr.c_username%type, cc_pass IN customerr.c_password%type,
+dd_o_b IN customerr.date_of_birth%type, cc_phone IN customerr.c_phone%type, cc_email IN customerr.c_email%type, cc_addr IN customerr.address_id%type)
 IS
 BEGIN
-INSERT INTO CUSTOMER (c_id, c_name, c_username, c_password, date_of_birth, c_phone, c_email, address_id )
+INSERT INTO CUSTOMERR (c_id, c_name, c_username, c_password, date_of_birth, c_phone, c_email, address_id )
   VALUES (cc_id, cc_name, cc_user, cc_pass, dd_o_b, cc_phone, cc_email, cc_addr);
 END;
 /
@@ -570,7 +569,7 @@ DELETE FROM SELLER WHERE S_ID = 6011;
 -- Views: list customer order history
 Create or replace view customer_order_history as
 SELECT c.C_ID, c.C_NAME, o.ORDER_ID,p.Amount, o.Order_Date
-FROM Customer c
+FROM Customerr c
 INNER JOIN Orderr o ON c.C_ID = o.C_ID
 INNER  JOIN PAYMENT p ON p.ORDER_ID = o.ORDER_ID
 ORDER BY o.Order_Date;
@@ -580,7 +579,7 @@ select * from customer_order_history;
 -- Views: List order shipping status summary
 Create or replace view customer_order_status as
 SELECT o.ORDER_ID, c.C_ID, c.C_Name, s.SHIPMENT_ID, s.DELIVERY_STATUS, s.SHIPMENT_DATE, o.ORDER_DATE, sh.sh_name
-from CUSTOMER c
+from CUSTOMERR c
 inner join ORDERR o on c.C_ID = o.C_ID
 inner join PAYMENT p on p.ORDER_ID = o.ORDER_ID
 inner join SHIPMENT s on s.PAYMENT_ID = P.PAYMENT_ID
@@ -635,7 +634,7 @@ INNER JOIN PAYMENT p
 on s.PAYMENT_ID = p.PAYMENT_ID;
 
 -- Indexes
-CREATE INDEX Customer_List ON Customer(C_Name, C_EMAIL, ADDRESS_ID);
+CREATE INDEX Customer_List ON Customerr(C_Name, C_EMAIL, ADDRESS_ID);
 
 -- Procedures:
 create or replace PROCEDURE TotalRevenuePerDay (P_DATE DATE)
