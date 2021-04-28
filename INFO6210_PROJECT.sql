@@ -1,17 +1,45 @@
-drop table ITEM_CART;
-drop table ITEM;
-drop table SHIPMENT;
-drop table PAYMENT;
-drop table ORDERR;
-drop table CART;
-drop table SELLER;
-drop table CUSTOMER;
-drop table SHIPPER;
-drop table CATEGORYY;
-drop table REUSABLE_ITEM;
-drop table ADDRESS;
-drop table ADDRESS_ZIP;
+SET SERVEROUTPUT ON;
 
+-- To drop tables, if existing
+DECLARE
+  tname varchar2(50);
+BEGIN
+  select table_name into tname from user_tables where table_name='ITEM_CART';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='ITEM';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='SHIPMENT';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='PAYMENT';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='ORDERR';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='CART';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='SELLER';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='CUSTOMERR';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='SHIPPER';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='CATEGORYY';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='REUSABLE_ITEM';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='ADDRESS';
+  execute immediate 'drop table '||tname;
+  select table_name into tname from user_tables where table_name='ADDRESS_ZIP';
+  execute immediate 'drop table '||tname;
+EXCEPTION 
+  when no_data_found then
+   dbms_output.put_line('The tables do not exist, create one');
+END;
+/
+
+---------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
+
+--CREATING AND INSERTING statements
 CREATE TABLE ADDRESS_ZIP(
     AREA_CODE INT NOT NULL PRIMARY KEY,
     CITY VARCHAR(25) NOT NULL,
@@ -44,7 +72,7 @@ CREATE TABLE SHIPPER(
     CONTACT_NUM INT NOT NULL
 );
 
-CREATE TABLE CUSTOMER(
+CREATE TABLE CUSTOMERR(
    C_ID INT NOT NULL PRIMARY KEY,
    C_NAME VARCHAR (50) NOT NULL,
    C_USERNAME VARCHAR (20) NOT NULL,
@@ -77,7 +105,7 @@ CREATE TABLE ORDERR(
     ORDER_ID INT NOT NULL PRIMARY KEY,
     ORDER_DATE DATE NOT NULL, 
     C_ID INT NOT NULL,
-    FOREIGN KEY(C_ID) REFERENCES CUSTOMER(C_ID),
+    FOREIGN KEY(C_ID) REFERENCES CUSTOMERR(C_ID),
     CART_ID INT NOT NULL,
     FOREIGN KEY(CART_ID) REFERENCES CART(CART_ID)
 );
@@ -108,13 +136,13 @@ CREATE TABLE ITEM(
     ITEM_NAME VARCHAR(25) NOT NULL,
     PRICE INT NOT NULL,
     S_ID INT NOT NULL, 
-    FOREIGN KEY(S_ID) REFERENCES SELLER(S_ID) ON DELETE CASCADE,
+    FOREIGN KEY(S_ID) REFERENCES SELLER(S_ID),
     R_ID INT,
     FOREIGN KEY(R_ID) REFERENCES REUSABLE_ITEM(R_ID),
     CATEGORY_ID INT NOT NULL, 
     FOREIGN KEY(CATEGORY_ID) REFERENCES CATEGORYY(CATEGORY_ID),
     C_ID INT,
-    FOREIGN KEY(C_ID) REFERENCES CUSTOMER(C_ID)
+    FOREIGN KEY(C_ID) REFERENCES CUSTOMERR(C_ID)
 );
 
 CREATE TABLE ITEM_CART(
@@ -140,6 +168,7 @@ INSERT INTO ADDRESS_ZIP VALUES(50014, 'GILBERT', 'ARIZONA', 'USA');
 INSERT INTO ADDRESS_ZIP VALUES(70027, 'KOLKATA', 'WEST BENGAL', 'INDIA');
 INSERT INTO ADDRESS_ZIP VALUES(60607, 'CHICAGO', 'IILIONIS', 'USA');
 INSERT INTO ADDRESS_ZIP VALUES(73301, 'AUSTIN', 'TEXAS', 'USA');
+
 
 INSERT INTO ADDRESS VALUES(1001, '45B SMITH STREET', 'ROXBURY ST', 02120);
 INSERT INTO ADDRESS VALUES(1002, 'HNO 12 NEWBURY STREET', 'LONGWOOD ST', 73301);
@@ -191,6 +220,7 @@ INSERT INTO CATEGORYY VALUES(3005, 'STATIONARY');
 INSERT INTO CATEGORYY VALUES(3006, 'COSMETICS');
 INSERT INTO CATEGORYY VALUES(3007, 'OTHERS');
 
+
 INSERT INTO SHIPPER VALUES(4001, 'JOHN', 6728638657);
 INSERT INTO SHIPPER VALUES(4002, 'DAVID', 8768689990);
 INSERT INTO SHIPPER VALUES(4003, 'RAM', 7723409876);
@@ -203,26 +233,28 @@ INSERT INTO SHIPPER VALUES(4009, 'MIKE', 8112345656);
 INSERT INTO SHIPPER VALUES(4010, 'LISA', 9113789765);
 INSERT INTO SHIPPER VALUES(4011, 'JAMES', 9904456543);
 
-INSERT INTO CUSTOMER VALUES(5001, 'Siya', 'Siya27', 'Siya@2705', '27-05-2000', 86766786788, 'siya27@gmail.com', 1015);
-INSERT INTO CUSTOMER VALUES(5002, 'Mathew', 'Mathew_Fred', 'Mathew#Fred', '21-04-1997', 7688099087, 'freddy@gmail.com', 1011);
-INSERT INTO CUSTOMER VALUES(5003, 'Rahul', 'Rahul112', '11@Rahul', '11-01-1998', 6122219009, 'rahul11@gmail.com', 1004);
-INSERT INTO CUSTOMER VALUES(5004, 'Jenny', 'JennyIKnow', 'Jenny@1234', '27-10-1995', 8883222098, 'jenny1234@gmail.com', 1016);
-INSERT INTO CUSTOMER VALUES(5005, 'Steve', 'Stevyy', '1@Stevey', '01-07-1999', 9990128410, 'steve1@yahoo.com', 1019);
-INSERT INTO CUSTOMER VALUES(5006, 'Priya', 'Ipriya', 'Priya#92002', '09-11-2002', 9384645372, 'priya92@gmail.com', 1005);
-INSERT INTO CUSTOMER VALUES(5007, 'Katy', 'ItsKaty', 'Katy@999', '17-09-1999', 87101012002, 'katy999@gmail.com', 1001);
-INSERT INTO CUSTOMER VALUES(5008, 'Ashish', '798Ashish', 'Ash#6789', '07-02-1998', 6002304010, 'ash789@yahoo.com', 1003);
-INSERT INTO CUSTOMER VALUES(5009, 'Karan', 'MeKaran', 'Karan1234#', '12-03-2004', 8116172821, 'karan1234@gmail.com', 1009);
-INSERT INTO CUSTOMER VALUES(5010, 'Mia', 'MiaRight', 'Mia@11111', '14-02-1996', 6434011282, 'mia11111@gyahoomail.com', 1007);
-INSERT INTO CUSTOMER VALUES(5011, 'John', 'Jonny', 'Jonny#56', '05-06-1995', 86766786788, 'jonny56@gmail.com', 1015);
-INSERT INTO CUSTOMER VALUES(5012, 'Rohit', 'RohitMeh', 'MehreRo@12', '12-12-1998', 8223400116, 'meh_roh@gmail.com', 1007);
-INSERT INTO CUSTOMER VALUES(5013, 'Alia', 'AliaCool', 'Alia@0398', '03-09-1998', 9997600216, 'alia0398@gmail.com', 1013);
-INSERT INTO CUSTOMER VALUES(5014, 'Tina', 'Tintin', 'Tintin@44', '04-04-1996', 6800333345, 'tinaa44@yahoo.com', 1020);
-INSERT INTO CUSTOMER VALUES(5015, 'Mike', 'Mikeyboy', 'Boy$1234', '12-03-1994', 7556091009, 'mike1234@gmail.com', 1012);
-INSERT INTO CUSTOMER VALUES(5016, 'David', 'DavidY', 'David#123', '09-11-1999', 7565111342, 'david12@yahoo.com', 1008);
-INSERT INTO CUSTOMER VALUES(5017, 'Riya', 'RiyaD', 'D@Riya12', '21-12-2000', 8110592387, 'riyaD12@yahoo.com', 1017);
-INSERT INTO CUSTOMER VALUES(5018, 'George', 'Georegyy', 'George@1234', '24-07-1995', 9150384926, '1234george@gmail.com', 1002);
-INSERT INTO CUSTOMER VALUES(5019, 'Emma', 'EmmaW', 'Emma177#', '17-07-1996', 7003160314, 'wemma@gmail.com', 1018);
-INSERT INTO CUSTOMER VALUES(5020, 'Aman', 'Aman10', '0997@Aman', '09-10-1997', 8422450776, 'aman0997@gmail.com', 1010);
+
+INSERT INTO CUSTOMERR VALUES(5001, 'Siya', 'Siya27', 'Siya@2705', '27-MAY-2000', 86766786788, 'siya27@gmail.com', 1015);
+INSERT INTO CUSTOMERR VALUES(5002, 'Mathew', 'Mathew_Fred', 'Mathew#Fred', '21-APR-1997', 7688099087, 'freddy@gmail.com', 1011);
+INSERT INTO CUSTOMERR VALUES(5003, 'Rahul', 'Rahul112', '11@Rahul', '11-JAN-1998', 6122219009, 'rahul11@gmail.com', 1004);
+INSERT INTO CUSTOMERR VALUES(5004, 'Jenny', 'JennyIKnow', 'Jenny@1234', '27-OCT-1995', 8883222098, 'jenny1234@gmail.com', 1016);
+INSERT INTO CUSTOMERR VALUES(5005, 'Steve', 'Stevyy', '1@Stevey', '01-JUL-1999', 9990128410, 'steve1@yahoo.com', 1019);
+INSERT INTO CUSTOMERR VALUES(5006, 'Priya', 'Ipriya', 'Priya#92002', '09-NOV-2002', 9384645372, 'priya92@gmail.com', 1005);
+INSERT INTO CUSTOMERR VALUES(5007, 'Katy', 'ItsKaty', 'Katy@999', '17-SEP-1999', 87101012002, 'katy999@gmail.com', 1001);
+INSERT INTO CUSTOMERR VALUES(5008, 'Ashish', '798Ashish', 'Ash#6789', '07-FEB-1998', 6002304010, 'ash789@yahoo.com', 1003);
+INSERT INTO CUSTOMERR VALUES(5009, 'Karan', 'MeKaran', 'Karan1234#', '12-MAR-2004', 8116172821, 'karan1234@gmail.com', 1009);
+INSERT INTO CUSTOMERR VALUES(5010, 'Mia', 'MiaRight', 'Mia@11111', '14-FEB-1996', 6434011282, 'mia11111@gyahoomail.com', 1007);
+INSERT INTO CUSTOMERR VALUES(5011, 'John', 'Jonny', 'Jonny#56', '05-JUN-1995', 86766786788, 'jonny56@gmail.com', 1015);
+INSERT INTO CUSTOMERR VALUES(5012, 'Rohit', 'RohitMeh', 'MehreRo@12', '12-JAN-1998', 8223400116, 'meh_roh@gmail.com', 1007);
+INSERT INTO CUSTOMERR VALUES(5013, 'Alia', 'AliaCool', 'Alia@0398', '03-SEP-1998', 9997600216, 'alia0398@gmail.com', 1013);
+INSERT INTO CUSTOMERR VALUES(5014, 'Tina', 'Tintin', 'Tintin@44', '04-APR-1996', 6800333345, 'tinaa44@yahoo.com', 1020);
+INSERT INTO CUSTOMERR VALUES(5015, 'Mike', 'Mikeyboy', 'Boy$1234', '12-MAR-1994', 7556091009, 'mike1234@gmail.com', 1012);
+INSERT INTO CUSTOMERR VALUES(5016, 'David', 'DavidY', 'David#123', '09-NOV-1999', 7565111342, 'david12@yahoo.com', 1008);
+INSERT INTO CUSTOMERR VALUES(5017, 'Riya', 'RiyaD', 'D@Riya12', '21-AUG-2000', 8110592387, 'riyaD12@yahoo.com', 1017);
+INSERT INTO CUSTOMERR VALUES(5018, 'George', 'Georegyy', 'George@1234', '24-AUG-1995', 9150384926, '1234george@gmail.com', 1002);
+INSERT INTO CUSTOMERR VALUES(5019, 'Emma', 'EmmaW', 'Emma177#', '17-MAR-1996', 7003160314, 'wemma@gmail.com', 1018);
+INSERT INTO CUSTOMERR VALUES(5020, 'Aman', 'Aman10', '0997@Aman', '09-OCT-1997', 8422450776, 'aman0997@gmail.com', 1010);
+
 
 INSERT INTO SELLER VALUES(6001, 'Camila', 'CamilaM', 'Camila#55', 4656009000, 'camila55@gmail.com', 1001);
 INSERT INTO SELLER VALUES(6002, 'Noah', 'Noah_C', 'Noah#4567', 8811312266, 'noah45@gmail.com', 1004);
@@ -235,6 +267,7 @@ INSERT INTO SELLER VALUES(6008, 'Mila', 'MilaMake', 'Mila58##', 7600194879, 'mil
 INSERT INTO SELLER VALUES(6009, 'Diya', 'DiyaDay', '12@Diya12', 7660009123, 'diya@yahoo.com', 1007);
 INSERT INTO SELLER VALUES(6010, 'Issac', 'Issac_N', 'Issac@78', 8333045176, 'issac78@gmail.com', 1010);
 INSERT INTO SELLER VALUES(6011, 'Tejas', 'Tejas_U', '1234#Tejas', 9812421890, 'tejas1234@gmail.com', 1013);
+
 
 INSERT INTO CART VALUES(7001, 4, 130);
 INSERT INTO CART VALUES(7002, 2, 105);
@@ -299,6 +332,7 @@ INSERT INTO PAYMENT VALUES(9018, 450, 'CREDIT', '13-APR-2021', 8018);
 INSERT INTO PAYMENT VALUES(9019, 110, 'DEBIT', '15-MAR-2021', 8019);
 INSERT INTO PAYMENT VALUES(9020, 510, 'PAYPAL', '03-JAN-2021', 8020);
 
+
 INSERT INTO SHIPMENT VALUES(10001, '01-JAN-2020', 'DELIVERED', 1015, 4001, 9001);
 INSERT INTO SHIPMENT VALUES(10002, '30-JAN-2020', 'DELIVERED', 1011, 4011, 9002);
 INSERT INTO SHIPMENT VALUES(10003, '17-APR-2021', 'SHIPPING', 1004, 4002, 9003);
@@ -342,6 +376,7 @@ INSERT INTO ITEM VALUES (11019, 'Sweatshirt', 48, 6007, 2014, 3002, 5019);
 INSERT INTO ITEM VALUES (11020, 'Soap', 16, 6006, 2017, 3006, 5020);
 INSERT INTO ITEM VALUES (11021, 'Air purifier', 100, 6005, 2020, 3007, 5015);
 
+
 INSERT INTO ITEM_CART VALUES (11001, 7001);
 INSERT INTO ITEM_CART VALUES (11002, 7001);
 INSERT INTO ITEM_CART VALUES (11003, 7001);
@@ -364,11 +399,108 @@ INSERT INTO ITEM_CART VALUES (11019, 7007);
 INSERT INTO ITEM_CART VALUES (11020, 7007);
 INSERT INTO ITEM_CART VALUES (11021, 7007);
 
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+
+--SQL to view tables
+
+select * from ADDRESS_ZIP;
+select * from ADDRESS;
+select * from REUSABLE_ITEM;
+select * from CATEGORYY; 
+select * from SHIPPER; 
+select * from CUSTOMERR;
+select * from SELLER;
+select * from CART;
+select * from ORDERR;
+select * from PAYMENT;
+select * from SHIPMENT;
+select * from ITEM;
+select * from ITEM_CART;
+
 commit;
 
---Procedure which returns the total quantity of product with the given ID
+-------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
 
-SET SERVEROUTPUT ON;
+--Views
+--Creating view based on the price of the items
+create or replace view Item_division as
+select item_id, item_name, price,
+case
+    when price < 25 then 'Cheap'
+    when price > 75 then 'Exorbitant'
+    else 'Affordable'
+end as Division
+from item;
+
+--Functions
+--Displaying all items belonging to mentioned category
+set serveroutput on;
+
+CREATE OR REPLACE PROCEDURE CategoryBased(cat_name in categoryy.category_name%type) IS
+p_cat_name categoryy.category_name%type;
+p_item_name item.item_name%type;
+CURSOR cur2 IS
+            SELECT category_name, item_name from categoryy, item
+            WHERE categoryy.category_id = item.category_id
+            AND category_name = cat_name;
+BEGIN
+    OPEN cur2;
+    LOOP
+        FETCH cur2 INTO p_cat_name, p_item_name;
+        EXIT WHEN cur2%notfound;
+        dbms_output.put_line('Under the category ' || p_cat_name || ', the item is - ' || p_item_name);
+    END LOOP;
+    CLOSE cur2;
+EXCEPTION
+        WHEN no_data_found THEN
+        dbms_output.put_line('No such item exists');
+END;
+/
+
+EXECUTE CategoryBased('FURNITURE');
+
+----------------------------------------------------------------------------------------
+
+--Procedure to display items based on price mentioned
+CREATE OR REPLACE PROCEDURE price_wise(p in number) IS
+    i_price item.price%type;
+    i_name item.item_name%type;
+    i_id item.item_id%type;
+    CURSOR cur1 IS
+    SELECT item_id,price,item_name FROM item WHERE price < p;
+    BEGIN
+        OPEN cur1;
+        LOOP
+            FETCH cur1 INTO i_id,i_price,i_name;
+            EXIT WHEN cur1%notfound;
+            dbms_output.put_line('Item ' || i_id || ' name is "' || i_name || '" and its price is $' || i_price);
+        END LOOP;
+        CLOSE cur1;
+    EXCEPTION
+        WHEN no_data_found THEN
+        dbms_output.put_line('Sorry no such item exists');
+    END;
+/
+   
+EXECUTE price_wise(50);
+
+--Procedure to create user
+
+CREATE OR REPLACE PROCEDURE Customer_Details
+(cc_id IN customer.c_id%type, cc_name IN customer.c_name%type, cc_user IN customer.c_username%type, cc_pass IN customer.c_password%type,
+dd_o_b IN customer.date_of_birth%type, cc_phone IN customer.c_phone%type, cc_email IN customer.c_email%type, cc_addr IN customer.address_id%type)
+IS
+BEGIN
+INSERT INTO CUSTOMER (c_id, c_name, c_username, c_password, date_of_birth, c_phone, c_email, address_id )
+  VALUES (cc_id, cc_name, cc_user, cc_pass, dd_o_b, cc_phone, cc_email, cc_addr);
+END;
+/
+
+exec Customer_Details(5031, 'Jane', 'JaneOkay', '1234#Jane', '14-05-98', 6617209901, 'jane1234@gmail.com', 1006);
+
+--Procedure to display number of items in cart based on the ID
 CREATE OR REPLACE PROCEDURE CART_DETAILS(C_ID IN VARCHAR)
     IS
     quan NUMBER(2);
@@ -406,35 +538,9 @@ get_num := numAddrId(1001);
 dbms_output.put_line('Value is : ' || get_num);
 end;
 /
+-------------------------------------------------------------------------------
 
-----------------------------------------------------------------------------------
-
-create or replace function total_cost(cId in int)
-    return int
-    is
-    total int :=0;
-    begin
-    select sum(it.price) into total from item it,cart ca,orderr ord where ord.cart_id = ca.cart_id and it.c_id=ord.c_id and ca.cart_id=cId;
-    return total;
-    end;
-/
-
-create or replace trigger before_pay_up
-    before insert
-    on
-    cart
-    for each row
-    declare
-    total int;
-    begin
-    total :=total_cost(:new.cart_id);
-    insert into cart values(:new.cart_id,:new.no_of_items,total);
-    end;
-/
-
-------------------------------------------------------------------------------------------
-
---CREATING AN ARCHIVE SELLER TABLE AND A TRIGGER 
+--Trigger to save details of the seller in seller_archive table once it is updated or deleted
 
 DROP TABLE SELLER_ARCHIVE;
 
@@ -457,42 +563,93 @@ BEGIN
 END;
 /
 
-SELECT * FROM SELLER_ARCHIVE;
-
-SELECT * FROM SELLER;
-
 DELETE FROM SELLER WHERE S_ID = 6011;
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-CREATE OR REPLACE TRIGGER CHECK_CART_QUANTITY 
-BEFORE INSERT ON CART FOR EACH ROW
-DECLARE
-QUAN INT;
+-- Views: list customer order history
+Create or replace view customer_order_history as
+SELECT c.C_ID, c.C_NAME, o.ORDER_ID,p.Amount, o.Order_Date
+FROM Customer c
+INNER JOIN Orderr o ON c.C_ID = o.C_ID
+INNER  JOIN PAYMENT p ON p.ORDER_ID = o.ORDER_ID
+ORDER BY o.Order_Date;
+
+select * from customer_order_history;
+
+-- Views: List order shipping status summary
+Create or replace view customer_order_status as
+SELECT o.ORDER_ID, c.C_ID, c.C_Name, s.SHIPMENT_ID, s.DELIVERY_STATUS, s.SHIPMENT_DATE, o.ORDER_DATE, sh.sh_name
+from CUSTOMER c
+inner join ORDERR o on c.C_ID = o.C_ID
+inner join PAYMENT p on p.ORDER_ID = o.ORDER_ID
+inner join SHIPMENT s on s.PAYMENT_ID = P.PAYMENT_ID
+inner join shipper sh on s.SHIPPER_ID = sh.SHIPPER_ID;
+
+select * from customer_order_status;
+
+-------------------------------------------------------------------------------------
+
+--Function to count all items a seller posted
+
+create or replace function totalProducts(sId in NUMBER)
+    return number
+    is
+    total number(2):=0;
+    begin
+        select count(*) into total
+        from item
+        where s_id=sId;
+        return total;
+    end;
+    /
+   
+--Excution:
+declare
+c number(4);
+begin
+c := totalProducts(6002);
+DBMS_output.put_line('Total items the seller sell is : '|| c);
+end;
+/
+
+--Function: To get Order Time
+CREATE OR REPLACE FUNCTION Get_Order_Time (P_ID NUMBER)
+RETURN NUMBER
+AS
+ v_temp NUMBER(10);
 BEGIN
-    QUAN := :NEW.NO_OF_ITEMS;
-    IF (QUAN > 5)
-    THEN
-      Raise_Application_Error(-20001, 'Quantity cannot exceed 5');
-    END IF;
+SELECT  s.SHIPMENT_DATE- p.PAYMENT_Date INTO v_temp
+FROM SHIPMENT s
+INNER JOIN PAYMENT p
+on s.PAYMENT_ID = p.PAYMENT_ID
+where s.PAYMENT_ID = P_ID;
+RETURN v_temp;
 END;
 /
 
-INSERT INTO CART VALUES(7021, 6, 140);
+-- Run
+SELECT s.PAYMENT_ID, s.SHIPMENT_DATE, p.PAYMENT_DATE, Get_Order_Time (s.PAYMENT_ID) as Days
+FROM SHIPMENT s
+INNER JOIN PAYMENT p
+on s.PAYMENT_ID = p.PAYMENT_ID;
 
-SELECT * FROM CART;
+-- Indexes
+CREATE INDEX Customer_List ON Customer(C_Name, C_EMAIL, ADDRESS_ID);
 
-CREATE OR REPLACE TRIGGER CHECK_QUANTITY 
-BEFORE INSERT ON Cart FOR EACH ROW
-DECLARE
-quan int;
-BEGIN
-    quan := :NEW.no_of_items;
-    IF (quan > 5)
-    THEN
-      dbms_output.put_line('Qunatity cannot be more than 5');
-      delete from cart where cart_id = :OLD.cart_id;
-      
-    END IF;
-END;
-/
+-- Procedures:
+create or replace PROCEDURE TotalRevenuePerDay (P_DATE DATE)
+AS
+    temp  number;
+    BEGIN
+        SELECT sum (amount) as TotalSale
+        INTO temp
+        FROM Payment
+        WHERE PAYMENT_DATE = P_DATE;
+        DBMS_output.put_line('Total revenue of selected date is : '|| temp);
+    END;
+    /
+   
+-- run
+Execute TotalRevenuePerDay('12-APR-2021') ;
+
