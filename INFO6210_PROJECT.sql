@@ -4,6 +4,8 @@ SET SERVEROUTPUT ON;
 DECLARE
   tname varchar2(50);
 BEGIN
+  select table_name into tname from user_tables where table_name='SELLER_ARCHIVE';
+  execute immediate 'drop table '||tname;
   select table_name into tname from user_tables where table_name='ITEM_CART';
   execute immediate 'drop table '||tname;
   select table_name into tname from user_tables where table_name='ITEM';
@@ -30,7 +32,7 @@ BEGIN
   execute immediate 'drop table '||tname;
   select table_name into tname from user_tables where table_name='ADDRESS_ZIP';
   execute immediate 'drop table '||tname;
-EXCEPTION 
+EXCEPTION
   when no_data_found then
    dbms_output.put_line('The tables do not exist, create one');
 END;
@@ -103,7 +105,7 @@ CREATE TABLE CART(
 
 CREATE TABLE ORDERR(
     ORDER_ID INT NOT NULL PRIMARY KEY,
-    ORDER_DATE DATE NOT NULL, 
+    ORDER_DATE DATE NOT NULL,
     C_ID INT NOT NULL,
     FOREIGN KEY(C_ID) REFERENCES CUSTOMERR(C_ID),
     CART_ID INT NOT NULL,
@@ -135,11 +137,11 @@ CREATE TABLE ITEM(
     ITEM_ID INT NOT NULL PRIMARY KEY,
     ITEM_NAME VARCHAR(25) NOT NULL,
     PRICE INT NOT NULL,
-    S_ID INT NOT NULL, 
+    S_ID INT NOT NULL,
     FOREIGN KEY(S_ID) REFERENCES SELLER(S_ID),
     R_ID INT,
     FOREIGN KEY(R_ID) REFERENCES REUSABLE_ITEM(R_ID),
-    CATEGORY_ID INT NOT NULL, 
+    CATEGORY_ID INT NOT NULL,
     FOREIGN KEY(CATEGORY_ID) REFERENCES CATEGORYY(CATEGORY_ID),
     C_ID INT,
     FOREIGN KEY(C_ID) REFERENCES CUSTOMERR(C_ID)
@@ -151,6 +153,17 @@ CREATE TABLE ITEM_CART(
     PRIMARY KEY(ITEM_ID, CART_ID),
     FOREIGN KEY(ITEM_ID) REFERENCES ITEM(ITEM_ID),
     FOREIGN KEY(CART_ID) REFERENCES CART(CART_ID)
+);
+
+CREATE TABLE SELLER_ARCHIVE(
+   S_ID INT NOT NULL,
+   S_NAME VARCHAR (50) NOT NULL,
+   S_USERNAME VARCHAR (20) NOT NULL,
+   S_PASSWORD VARCHAR (20) NOT NULL,
+   S_PHONE INT NOT NULL,
+   S_EMAIL VARCHAR(25) NOT NULL,
+   ADDRESS_ID INT,
+   FOREIGN KEY(ADDRESS_ID) REFERENCES ADDRESS(ADDRESS_ID)
 );
 
 --Inserting data
@@ -168,7 +181,6 @@ INSERT INTO ADDRESS_ZIP VALUES(50014, 'GILBERT', 'ARIZONA', 'USA');
 INSERT INTO ADDRESS_ZIP VALUES(70027, 'KOLKATA', 'WEST BENGAL', 'INDIA');
 INSERT INTO ADDRESS_ZIP VALUES(60607, 'CHICAGO', 'IILIONIS', 'USA');
 INSERT INTO ADDRESS_ZIP VALUES(73301, 'AUSTIN', 'TEXAS', 'USA');
-
 
 INSERT INTO ADDRESS VALUES(1001, '45B SMITH STREET', 'ROXBURY ST', 02120);
 INSERT INTO ADDRESS VALUES(1002, 'HNO 12 NEWBURY STREET', 'LONGWOOD ST', 73301);
@@ -220,7 +232,6 @@ INSERT INTO CATEGORYY VALUES(3005, 'STATIONARY');
 INSERT INTO CATEGORYY VALUES(3006, 'COSMETICS');
 INSERT INTO CATEGORYY VALUES(3007, 'OTHERS');
 
-
 INSERT INTO SHIPPER VALUES(4001, 'JOHN', 6728638657);
 INSERT INTO SHIPPER VALUES(4002, 'DAVID', 8768689990);
 INSERT INTO SHIPPER VALUES(4003, 'RAM', 7723409876);
@@ -232,7 +243,6 @@ INSERT INTO SHIPPER VALUES(4008, 'MILEY', 6777540011);
 INSERT INTO SHIPPER VALUES(4009, 'MIKE', 8112345656);
 INSERT INTO SHIPPER VALUES(4010, 'LISA', 9113789765);
 INSERT INTO SHIPPER VALUES(4011, 'JAMES', 9904456543);
-
 
 INSERT INTO CUSTOMERR VALUES(5001, 'Siya', 'Siya27', 'Siya@2705', '27-MAY-2000', 86766786788, 'siya27@gmail.com', 1015);
 INSERT INTO CUSTOMERR VALUES(5002, 'Mathew', 'Mathew_Fred', 'Mathew#Fred', '21-APR-1997', 7688099087, 'freddy@gmail.com', 1011);
@@ -267,7 +277,6 @@ INSERT INTO SELLER VALUES(6008, 'Mila', 'MilaMake', 'Mila58##', 7600194879, 'mil
 INSERT INTO SELLER VALUES(6009, 'Diya', 'DiyaDay', '12@Diya12', 7660009123, 'diya@yahoo.com', 1007);
 INSERT INTO SELLER VALUES(6010, 'Issac', 'Issac_N', 'Issac@78', 8333045176, 'issac78@gmail.com', 1010);
 INSERT INTO SELLER VALUES(6011, 'Tejas', 'Tejas_U', '1234#Tejas', 9812421890, 'tejas1234@gmail.com', 1013);
-
 
 INSERT INTO CART VALUES(7001, 4, 130);
 INSERT INTO CART VALUES(7002, 2, 105);
@@ -311,11 +320,11 @@ INSERT INTO ORDERR VALUES(8018, '13-APR-2021',5018,7018);
 INSERT INTO ORDERR VALUES(8019, '15-MAR-2021',5019,7019);
 INSERT INTO ORDERR VALUES(8020, '03-JAN-2021',5020,7020);
 
-INSERT INTO PAYMENT VALUES(9001, 130, 'CREDIT', '01-JAN-2020', 8001);
+INSERT INTO PAYMENT VALUES(9001, 130, 'CREDIT', '11-JAN-2020', 8001);
 INSERT INTO PAYMENT VALUES(9002, 105, 'DEBIT', '15-JAN-2020', 8002);
 INSERT INTO PAYMENT VALUES(9003, 310, 'PAYPAL', '14-FEB-2021', 8003);
 INSERT INTO PAYMENT VALUES(9004, 105, 'CREDIT', '28-MAR-2020', 8004);
-INSERT INTO PAYMENT VALUES(9005, 12, 'PAYPAL', '17-APR-2020', 8005);
+INSERT INTO PAYMENT VALUES(9005, 12, 'PAYPAL', '17-MAR-2020', 8005);
 INSERT INTO PAYMENT VALUES(9006, 135, 'CREDIT', '19-MAY-2020', 8006);
 INSERT INTO PAYMENT VALUES(9007, 216, 'CREDIT', '30-JUN-2020', 8007);
 INSERT INTO PAYMENT VALUES(9008, 525, 'CREDIT', '26-JUL-2020', 8008);
@@ -331,7 +340,6 @@ INSERT INTO PAYMENT VALUES(9017, 260, 'CREDIT', '12-APR-2021', 8017);
 INSERT INTO PAYMENT VALUES(9018, 450, 'CREDIT', '13-APR-2021', 8018);
 INSERT INTO PAYMENT VALUES(9019, 110, 'DEBIT', '15-MAR-2021', 8019);
 INSERT INTO PAYMENT VALUES(9020, 510, 'PAYPAL', '03-JAN-2021', 8020);
-
 
 INSERT INTO SHIPMENT VALUES(10001, '01-JAN-2020', 'DELIVERED', 1015, 4001, 9001);
 INSERT INTO SHIPMENT VALUES(10002, '30-JAN-2020', 'DELIVERED', 1011, 4011, 9002);
@@ -376,7 +384,6 @@ INSERT INTO ITEM VALUES (11019, 'Sweatshirt', 48, 6007, 2014, 3002, 5019);
 INSERT INTO ITEM VALUES (11020, 'Soap', 16, 6006, 2017, 3006, 5020);
 INSERT INTO ITEM VALUES (11021, 'Air purifier', 100, 6005, 2020, 3007, 5015);
 
-
 INSERT INTO ITEM_CART VALUES (11001, 7001);
 INSERT INTO ITEM_CART VALUES (11002, 7001);
 INSERT INTO ITEM_CART VALUES (11003, 7001);
@@ -400,15 +407,14 @@ INSERT INTO ITEM_CART VALUES (11020, 7007);
 INSERT INTO ITEM_CART VALUES (11021, 7007);
 
 ---------------------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------------------
 
 --SQL to view tables
 
 select * from ADDRESS_ZIP;
 select * from ADDRESS;
 select * from REUSABLE_ITEM;
-select * from CATEGORYY; 
-select * from SHIPPER; 
+select * from CATEGORYY;
+select * from SHIPPER;
 select * from CUSTOMERR;
 select * from SELLER;
 select * from CART;
@@ -417,9 +423,300 @@ select * from PAYMENT;
 select * from SHIPMENT;
 select * from ITEM;
 select * from ITEM_CART;
+select * from SELLER_ARCHIVE;
 
 commit;
 
 -------------------------------------------------------------------------------------------------------------------------------------
+
+--GRANT PERMISSIONS
+CREATE USER c##Customer2 IDENTIFIED BY Customer26210;
+CREATE USER c##Seller2 IDENTIFIED BY Seller26210;
+CREATE USER c##Shipper2 IDENTIFIED BY Shipper26210;
+
+grant create session to c##Customer2;
+grant create session to c##Seller2;
+grant create session to c##Shipper2;
+
+------------------------------------------------------------------------------
+--CUSTOMER GRANT PERMISSION
+
+GRANT INSERT, UPDATE, DELETE ON CUSTOMERR TO c##Customer2;
+GRANT INSERT, UPDATE ON ADDRESS TO c##Customer2;
+GRANT INSERT, UPDATE ON ADDRESS_ZIP TO c##Customer2;
+GRANT INSERT, UPDATE, DELETE ON CART TO c##Customer2;
+GRANT SELECT ON PAYMENT TO c##Customer2;
+GRANT SELECT ON ITEM TO c##Customer2;
+GRANT SELECT ON CATEGORYY TO c##Customer2;
+GRANT SELECT ON SHIPMENT TO c##Customer2;
+GRANT SELECT ON REUSABLE_ITEM TO c##Customer2;
+GRANT SELECT ON item_division TO c##Customer2;
+GRANT SELECT ON customer_order_history TO c##Customer2;
+GRANT SELECT ON customer_order_status TO c##Customer2;
+GRANT EXECUTE ON customer_details TO c##Customer2;
+GRANT EXECUTE ON cart_details TO c##Customer2;
+GRANT EXECUTE ON Get_Order_Time TO c##Customer2;
+
+commit;
+
+----------------------------------------------------------------
+--SELLER GRANT PERMISSION
+
+GRANT INSERT, UPDATE, DELETE ON SELLER TO c##Seller2;
+GRANT INSERT, UPDATE, DELETE ON ADDRESS TO c##Seller2;
+GRANT INSERT, UPDATE, DELETE ON ADDRESS_ZIP TO c##Seller2;
+GRANT SELECT, INSERT, UPDATE ON ITEM TO c##Seller2;
+GRANT SELECT, INSERT, UPDATE ON REUSABLE_ITEM TO c##Seller2;
+GRANT EXECUTE ON CategoryBased TO c##Seller2;
+GRANT EXECUTE ON totalProducts TO c##Seller2;
+
+commit;
+
+----------------------------------------------------------------
+--SHIPPER GRANT PERMISSION
+
+GRANT INSERT, UPDATE, DELETE ON SHIPPER TO c##Shipper2;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SHIPMENT TO c##Shipper2;
+GRANT EXECUTE ON Get_Order_Time TO c##Shipper2;
+
+commit;
+
 ---------------------------------------------------------------------------------------------------------------------------------------
 
+--Views
+--Categorising items based on the price for the customers to view
+create or replace view Item_division as
+select item_id, item_name, price,
+case
+    when price < 25 then 'Cheap'
+    when price > 75 then 'Exorbitant'
+    else 'Affordable'
+end as Division
+from item;
+
+-----------------------------------------------------------------------------
+
+-- List customer order history
+Create or replace view customer_order_history as
+SELECT c.C_ID, c.C_NAME, o.ORDER_ID,p.Amount, o.Order_Date
+FROM Customerr c
+INNER JOIN Orderr o ON c.C_ID = o.C_ID
+INNER  JOIN PAYMENT p ON p.ORDER_ID = o.ORDER_ID
+ORDER BY o.Order_Date;
+
+select * from customer_order_history;
+
+-----------------------------------------------------------------------------------
+
+--List order shipping status summary
+Create or replace view customer_order_status as
+SELECT o.ORDER_ID, c.C_ID, c.C_Name, s.SHIPMENT_ID, s.DELIVERY_STATUS, s.SHIPMENT_DATE, o.ORDER_DATE, sh.sh_name
+from CUSTOMERR c
+inner join ORDERR o on c.C_ID = o.C_ID
+inner join PAYMENT p on p.ORDER_ID = o.ORDER_ID
+inner join SHIPMENT s on s.PAYMENT_ID = P.PAYMENT_ID
+inner join shipper sh on s.SHIPPER_ID = sh.SHIPPER_ID;
+
+select * from customer_order_status;
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- Indexes
+CREATE INDEX Customer_List ON Customerr(C_Name, C_EMAIL, ADDRESS_ID);
+
+----------------------------------------------------------------------------------------------------------------------
+
+--Package
+CREATE OR REPLACE PACKAGE ITEM_PACKAGE AS
+PROCEDURE CategoryBased(cat_name in categoryy.category_name%type);
+PROCEDURE price_wise(p in number);
+END;
+/
+------------------------------------------------------------------------------------------------------------------
+
+--Procedures
+--Displaying all items belonging to mentioned category
+CREATE OR REPLACE PACKAGE BODY ITEM_PACKAGE AS
+PROCEDURE CategoryBased(cat_name in categoryy.category_name%type) IS
+p_cat_name categoryy.category_name%type;
+p_item_name item.item_name%type;
+CURSOR cur2 IS
+            SELECT category_name, item_name from categoryy, item
+            WHERE categoryy.category_id = item.category_id
+            AND category_name = cat_name;
+BEGIN
+    OPEN cur2;
+    LOOP
+        FETCH cur2 INTO p_cat_name, p_item_name;
+        EXIT WHEN cur2%notfound;
+        dbms_output.put_line('Under the category ' || p_cat_name || ', the item is - ' || p_item_name);
+    END LOOP;
+    CLOSE cur2;
+EXCEPTION
+        WHEN no_data_found THEN
+        dbms_output.put_line('No such item exists');
+END CategoryBased;
+
+
+--To display items based on the range of the price mentioned
+PROCEDURE price_wise(p in number) IS
+    i_price item.price%type;
+    i_name item.item_name%type;
+    i_id item.item_id%type;
+    CURSOR cur1 IS
+    SELECT item_id,price,item_name FROM item WHERE price < p;
+    BEGIN
+        OPEN cur1;
+        LOOP
+            FETCH cur1 INTO i_id,i_price,i_name;
+            EXIT WHEN cur1%notfound;
+            dbms_output.put_line('Item ' || i_id || ' name is "' || i_name || '" and its price is $' || i_price);
+        END LOOP;
+        CLOSE cur1;
+    EXCEPTION
+        WHEN no_data_found THEN
+        dbms_output.put_line('Sorry no such item exists');
+    END price_wise;
+
+END;
+/
+EXECUTE ITEM_PACKAGE.CategoryBased('FURNITURE');
+EXECUTE ITEM_PACKAGE.price_wise(50);
+
+----------------------------------------------------------------------------------------
+
+--Display number of items in cart based on the ID
+CREATE OR REPLACE PROCEDURE CART_DETAILS(C_ID IN VARCHAR)
+    IS
+    quan NUMBER(2);
+    BEGIN
+    SELECT NO_OF_ITEMS INTO quan FROM CART WHERE CART_ID = C_ID;
+        dbms_output.put_line('The number of items present in the cart id ' || c_id ||' is : ' || quan);
+    EXCEPTION
+    WHEN no_data_found THEN
+    dbms_output.put_line('Sorry no such cart exist !!');
+    END;
+/
+
+EXECUTE CART_DETAILS(7020);
+
+-------------------------------------------------------------------------------
+
+--To check per day revenue
+create or replace PROCEDURE TotalRevenuePerDay (P_DATE DATE)
+AS
+    temp  number;
+    BEGIN
+        SELECT sum (amount) as TotalSale
+        INTO temp
+        FROM Payment
+        WHERE PAYMENT_DATE = P_DATE
+        GROUP BY PAYMENT_DATE;
+        DBMS_output.put_line('Total revenue of selected date is : '|| temp);
+    END;
+    /
+   
+Execute TotalRevenuePerDay('12-APR-2021') ;
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+--Functions
+--To get a count of all items a seller posted
+create or replace function totalProducts(sId in NUMBER)
+    return number
+    is
+    total number(2):=0;
+    begin
+        select count(*) into total
+        from item
+        where s_id=sId;
+        return total;
+    end;
+    /
+   
+declare
+c number(4);
+begin
+c := totalProducts(6002);
+DBMS_output.put_line('Total number of items the seller sells is : '|| c);
+end;
+/
+
+---------------------------------------------------------------------------------
+
+--To get Order Time
+CREATE OR REPLACE FUNCTION Get_Order_Time (P_ID NUMBER)
+RETURN NUMBER
+AS
+ v_temp NUMBER(10);
+BEGIN
+SELECT  s.SHIPMENT_DATE- p.PAYMENT_Date INTO v_temp
+FROM SHIPMENT s
+INNER JOIN PAYMENT p
+on s.PAYMENT_ID = p.PAYMENT_ID
+where s.PAYMENT_ID = P_ID;
+RETURN v_temp;
+END;
+/
+
+SELECT s.PAYMENT_ID, s.SHIPMENT_DATE, p.PAYMENT_DATE, Get_Order_Time (s.PAYMENT_ID) as Days
+FROM SHIPMENT s
+INNER JOIN PAYMENT p
+on s.PAYMENT_ID = p.PAYMENT_ID;
+
+-------------------------------------------------------------------------------
+
+--Trigger
+--To save details of the seller in seller_archive table once it is updated or deleted
+CREATE OR REPLACE TRIGGER after_seller_details_deleted
+AFTER DELETE
+ON SELLER FOR EACH ROW
+BEGIN
+    INSERT INTO SELLER_ARCHIVE (S_ID, S_NAME, S_USERNAME, S_PASSWORD, S_PHONE, S_EMAIL, ADDRESS_ID) VALUES (:OLD.S_ID, :OLD.S_NAME, :OLD.S_USERNAME, :OLD.S_PASSWORD, :OLD.S_PHONE, :OLD.S_EMAIL, :OLD.ADDRESS_ID);
+END;
+/
+
+DELETE FROM SELLER WHERE S_ID = 6011;
+
+select * from SELLER;
+select * from SELLER_ARCHIVE;
+----------------------------------------------------------------------------------------------------------------
+
+-- Generating 5 reports
+
+--Delivery status
+select delivery_status,count(*) from shipment group by delivery_status;
+
+--Find customers with total amount more than 200 dollars
+SELECT p.amount, c.c_name AS  "Customer Name"
+FROM Customerr c, Payment p, Orderr o, Item i, Categoryy ca
+WHERE c.C_ID = o.C_ID AND o.ORDER_ID = p.ORDER_ID AND i.C_ID = c.C_ID AND ca.CATEGORY_ID = i.CATEGORY_ID AND p.amount > 200
+ORDER BY amount DESC;
+
+--Category with highest reusable items
+select category_name, sum(no_of_times_used)
+from reusable_item r, item i, categoryy c
+where r.r_id = i.r_id and c.category_id = i.category_id group by category_name order by sum(no_of_times_used) desc;
+
+--Customer details after the delivery
+select c_name as "Customer name", c_phone as "Phone number", address_line1 "Address", city, payment_date, amount
+from customerr c, address a, address_zip z, payment p, orderr o
+where c.address_id = a.address_id and a.area_code = z.area_code and p.order_id = o.order_id and o.c_id = c.c_id;
+
+--Number of items in each category
+select category_name, sum(no_of_items)
+from cart c, categoryy ca, item_cart ic, item i
+where ca.category_id = i.category_id and ic.cart_id = c.cart_id and ic.item_id = i.item_id
+group by category_name;
+
+--Categorising items based the prices
+SELECT item_name, price,
+     CASE WHEN price < 40 THEN 'CHEAP'
+          WHEN price >75 THEN 'EXPENSIVE'
+                  ELSE 'REASONABLE'
+     END AS Price_Range
+FROM ITEM;
+
+commit;
+
+----------------------------------------------------------------------------------------------------------------------
